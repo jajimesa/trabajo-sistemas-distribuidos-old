@@ -13,18 +13,21 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class PruebaClip {
 	
-	//public static Mixer mixer; // Componente de más alto nivel de la api javax.sound.sampled
+	public static Mixer mixer; // Componente de más alto nivel de la api javax.sound.sampled
 	public static Clip clip; // Un clip en memoria el fichero al completo y tiene que conocer su duración
 	
+	/* Clase que toma Fly Me to The Moon, la carga en memoria RAM
+	 * y la reproduce a través del sistema de audio del pc.
+	 */
 	public static void main(String[] args) throws InterruptedException {
 		
 		/* 1. Obtenemos todos los "puertos" de salida de audio de nuestro sistema.
 		 * La clase AudioSystem sirve como puente a los sistemas de audio de nuestro dispositivo.
 		 */
-//		Mixer.Info[] mixInfos = AudioSystem.getMixerInfo();
-//		for(Mixer.Info info: mixInfos) {
-//			System.out.println(info);
-//		}
+		Mixer.Info[] mixInfos = AudioSystem.getMixerInfo();
+		for(Mixer.Info info: mixInfos) {
+			System.out.println(info);
+		}
 		
 		// 2. Escojo para el mixer el primer puerto, que se corresponde con mis altavoces (salta excepción) 
 		// https://stackoverflow.com/questions/55680752/why-does-attempting-to-get-a-clip-throw-exception
@@ -45,7 +48,7 @@ public class PruebaClip {
 		// 5. Reproduczo un fichero de audio como prueba
 		try {
 			// Se puede con una URL en lugar de con un fichero
-			 File file = new File("Fly Me To The Moon (2008 Remastered).wav");
+			 File file = new File(".src/Prueba/Fly Me To The Moon (2008 Remastered).wav");
              AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
              DataLine.Info info = new DataLine.Info(Clip.class, audioStream.getFormat());
              clip = (Clip) AudioSystem.getLine(info);
