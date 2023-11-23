@@ -1,18 +1,18 @@
 package Prueba;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
+import javax.sound.sampled.Port;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -28,9 +28,7 @@ public class PruebaSourceDataLine {
 	        // Obtengo la información de todos los mixers del AudioSystem de Java
 	        Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
 	        Mixer currentMixer = null;
-		    
-	        
-	        
+		   
 	        // 1º Monto el programita que graba mi voz (TargetDataLine)
 	        
 	        // Recorro estas informaciones buscando un mixer que sea TargetDataLine (linea de entrada)
@@ -67,7 +65,6 @@ public class PruebaSourceDataLine {
 					
 					while(true) 
 					{
-						
 						leido = targetDataLine.read(b, 0, b.length); // Leo del micrófono
 						out.write(b, 0, leido); // Escribo lo que he grabado
 					}
@@ -75,15 +72,16 @@ public class PruebaSourceDataLine {
 			};
 	        
 			// 2º Monto el programita que reproduce mi voz (SourceDataLine)
-			//AudioFormat formatoWAV = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4 , 44100, false);
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("./src/Prueba/grabacion.wav"));
-			AudioFormat audioFormat = audioInputStream.getFormat();
-			DataLine.Info info = new Info(SourceDataLine.class, audioFormat);
-			SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
+			AudioFormat formatoWAV = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4 , 44100, false);
+			//AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100.0F, 16, 2, 4, 44100.0F, false);
+			
+			//AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("./src/Prueba/grabacion.wav"));
+			//AudioFormat audioFormat = audioInputStream.getFormat();
+			//DataLine.Info info = new Info(SourceDataLine.class, audioFormat);
+			//SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
+			
 			
 			//Line.Info sourceDLInfo = new Line.Info(SourceDataLine.class, audioFormat);
-
-	        
 	        // Recorro estas informaciones buscando un mixer que sea SourceDataLine (linea de entrada)
 //		    for(int i = 0; i < mixerInfo.length; i++) {
 //	
@@ -102,8 +100,10 @@ public class PruebaSourceDataLine {
 //		        }
 //	        }
 			//SourceDataLine sourceDataLine = (SourceDataLine) currentMixer.getLine(sourceDLInfo);
-		    //SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getSourceDataLine(formatoWAV);
+		    
 			
+			SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getSourceDataLine(formatoWAV);
+			sourceDataLine.open();
 			Thread hiloReproductor = new Thread() {
 
 				@Override public void run() 
@@ -136,12 +136,12 @@ public class PruebaSourceDataLine {
 			
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (UnsupportedAudioFileException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
 		}	
 	}
 }

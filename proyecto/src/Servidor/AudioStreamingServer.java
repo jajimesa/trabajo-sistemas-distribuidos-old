@@ -12,7 +12,7 @@ public class AudioStreamingServer {
 	{
 		ExecutorService pool = Executors.newCachedThreadPool();
 		
-		try(ServerSocket server = new ServerSocket()){
+		try(ServerSocket server = new ServerSocket(6666)) {
 			while(true) 
 			{
 				try 

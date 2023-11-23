@@ -48,7 +48,7 @@ public class PruebaClip {
 		// 5. Reproduczo un fichero de audio como prueba
 		try {
 			// Se puede con una URL en lugar de con un fichero
-			 File file = new File(".src/Prueba/Fly Me To The Moon (2008 Remastered).wav");
+			 File file = new File("./src/Prueba/Fly Me To The Moon (2008 Remastered).wav");
              AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
              DataLine.Info info = new DataLine.Info(Clip.class, audioStream.getFormat());
              clip = (Clip) AudioSystem.getLine(info);
