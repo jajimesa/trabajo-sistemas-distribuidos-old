@@ -1,4 +1,4 @@
-package Servidor;
+package servidor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,9 +10,17 @@ public class AudioStreamingServer {
 	
 	public static void main(String[] args) 
 	{
+		init();
+	}
+	
+	public static void init() 
+	{
 		ExecutorService pool = Executors.newCachedThreadPool();
 		
 		try(ServerSocket server = new ServerSocket(6666)) {
+			
+			// Iniciar hilo con la radio.
+			
 			while(true) 
 			{
 				try 
